@@ -1,0 +1,33 @@
+/* Pages shown before login: verify email, forgot/reset password, Google steps, welcome screen */
+.auth-page,.welcome-body{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;position:relative;overflow-x:hidden;
+  background:linear-gradient(150deg,rgba(7,42,102,.94),rgba(20,86,201,.80)),url('../../images.jpg') center/cover fixed,var(--navy)}
+.auth-page::before,.welcome-body::before{display:none}
+.auth-wrap{width:100%;max-width:430px;position:relative;z-index:1}
+.auth-card{padding:30px 28px;overflow:visible}
+.auth-brand{display:flex;align-items:center;gap:8px;font-size:26px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.auth-brand b{color:var(--blue)}.auth-brand .brand-mark{stroke:var(--navy)}.auth-brand .brand-logo{height:40px}
+.auth-card h1{font-size:22px;margin:4px 0 4px;color:var(--navy)}.auth-card .muted{margin-bottom:12px}
+.otp-input{font-size:26px;letter-spacing:10px;text-align:center;font-weight:700}
+.role-pick{display:grid;gap:10px;margin:12px 0}
+.role-opt{display:flex;gap:12px;align-items:center;border:2px solid var(--line);border-radius:var(--r-md);padding:12px 14px;cursor:pointer;transition:border-color .15s,background .15s}
+.role-opt:hover{background:var(--blue-l)}.role-opt:has(input:checked){border-color:var(--blue);background:var(--blue-l)}
+.role-opt small{display:block;color:var(--mute)}
+/* decorative background: clouds, floating house, sparkles */
+.auth-deco{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.cloud{position:absolute;height:34px;border-radius:99px;background:rgba(255,255,255,.18);animation:hr-drift 12s ease-in-out infinite alternate}
+.cloud::before,.cloud::after{content:"";position:absolute;background:inherit;border-radius:50%}
+.cloud::before{width:34px;height:34px;left:14px;top:-16px}.cloud::after{width:24px;height:24px;left:44px;top:-10px}
+.cloud.c1{width:96px;top:12%;left:8%}.cloud.c2{width:120px;top:64%;right:10%;animation-duration:15s}.cloud.c3{width:80px;top:30%;right:22%;animation-duration:10s}
+.float-house{position:absolute;left:10%;bottom:14%;color:rgba(255,255,255,.35);animation:hr-float 5s ease-in-out infinite}.float-house svg{width:64px;height:64px}
+.spark{position:absolute;width:10px;height:10px;background:#fff;clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);animation:hr-twinkle 2.4s ease-in-out infinite}
+.spark.s1{top:20%;left:30%}.spark.s2{top:70%;left:62%;animation-delay:.8s}.spark.s3{top:38%;right:14%;animation-delay:1.5s}
+/* welcome screen */
+.welcome-stage{position:relative;z-index:1;text-align:center;color:#fff;max-width:520px;padding:10px}
+.welcome-house{animation:hr-float 3s ease-in-out infinite;margin-bottom:6px}
+.welcome-house path{stroke-dasharray:300;animation:hr-draw 1.2s ease both}
+.welcome-stage h1{font-size:40px;margin:6px 0 2px;animation:hr-rise .6s .2s ease both}
+.welcome-stage .hello{font-size:24px;font-weight:600;color:#bfe0ff;animation:hr-rise .6s .4s ease both}
+.welcome-stage .line{font-size:17px;margin:8px 0 18px;color:#e6f0ff;animation:hr-rise .6s .6s ease both}
+.welcome-bar{height:6px;width:220px;margin:0 auto 18px;background:rgba(255,255,255,.25);border-radius:99px;overflow:hidden}
+.welcome-bar span{display:block;height:100%;background:linear-gradient(90deg,#7cc0ff,#fff);border-radius:99px;animation:hr-grow 3s linear both}
+@media(max-width:640px){.welcome-stage h1{font-size:30px}.welcome-stage .hello{font-size:20px}}

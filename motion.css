@@ -1,0 +1,54 @@
+/* HomeRent motion: light, CSS-only, blue + white. Everything switches off for reduced-motion users. */
+@keyframes hr-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes hr-fade{from{opacity:0}to{opacity:1}}
+@keyframes hr-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes hr-drift{from{transform:translateX(-30px)}to{transform:translateX(30px)}}
+@keyframes hr-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@keyframes hr-pulse{0%{box-shadow:0 0 0 0 rgba(29,139,255,.55)}70%{box-shadow:0 0 0 8px rgba(29,139,255,0)}100%{box-shadow:0 0 0 0 rgba(29,139,255,0)}}
+@keyframes hr-spin{to{transform:rotate(360deg)}}
+@keyframes hr-pop{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+@keyframes hr-twinkle{0%,100%{opacity:.25;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+@keyframes hr-grow{from{width:0}to{width:100%}}
+@keyframes hr-draw{from{stroke-dashoffset:300}to{stroke-dashoffset:0}}
+
+@view-transition{navigation:auto}                         /* smooth page-to-page fade in supporting browsers */
+body{animation:hr-fade .35s ease both}
+
+/* Sections and cards ease in, one after another */
+.hero,.page-hero,.container>h1,.admin-main>h1{animation:hr-rise .5s ease both}
+.stat,.cat-card,.prop,.card,.upload-card{animation:hr-rise .5s ease both}
+.stats .stat:nth-child(2),.cat-grid .cat-card:nth-child(2),.grid .prop:nth-child(2){animation-delay:.06s}
+.stats .stat:nth-child(3),.cat-grid .cat-card:nth-child(3),.grid .prop:nth-child(3){animation-delay:.12s}
+.stats .stat:nth-child(4),.cat-grid .cat-card:nth-child(4),.grid .prop:nth-child(4){animation-delay:.18s}
+.stats .stat:nth-child(n+5),.cat-grid .cat-card:nth-child(5),.grid .prop:nth-child(n+5){animation-delay:.24s}
+.hero h1{animation:hr-rise .6s .1s ease both}
+
+/* Cute decorations (CSS only): a floating house and a drifting cloud in banners */
+.hero::before,.page-hero::before{content:"";position:absolute;right:34px;top:16px;width:78px;height:70px;opacity:.9;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 110' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 55 60 12l50 43'/%3E%3Cpath d='M22 48v52h76V48'/%3E%3Cpath d='M48 100V70h24v30' stroke='%237cc0ff'/%3E%3C/svg%3E") center/contain no-repeat;
+  animation:hr-float 4.5s ease-in-out infinite}
+.hero::after{background:radial-gradient(closest-side,rgba(255,255,255,.28),transparent)!important;border-radius:50%;animation:hr-drift 9s ease-in-out infinite alternate}
+.container>h1::after{content:"";position:absolute;right:30px;top:50%;margin-top:-14px;width:60px;height:26px;border-radius:99px;background:rgba(255,255,255,.22);box-shadow:18px -10px 0 4px rgba(255,255,255,.18);animation:hr-drift 8s ease-in-out infinite alternate}
+.container>h1{position:relative;overflow:hidden}
+.map-card .section-title svg,.empty::before{animation:hr-bob 2.2s ease-in-out infinite}
+.empty::before{content:"\1F3E0";display:block;font-size:34px;margin-bottom:6px}
+
+/* Interface: hover, press, icons, badges, dropdown, spinners */
+.btn:active{transform:scale(.97)}
+.nav>a svg,.admin-side a svg,.stat-ico svg,.cat-ico svg{transition:transform .2s}
+.nav>a:hover svg,.admin-side a:hover svg{transform:translateY(-2px) scale(1.12)}
+.stat:hover .stat-ico svg,.cat-card:hover .cat-ico svg{transform:scale(1.15) rotate(-6deg)}
+.fav-btn:active svg{animation:hr-pop .25s ease}
+.nav-badge:not([hidden]){animation:hr-pulse 2s infinite}
+.user-drop{animation:hr-pop .16s ease}
+.btn:disabled::before{content:"";display:inline-block;width:14px;height:14px;margin-right:6px;border:2px solid currentColor;border-top-color:transparent;border-radius:50%;animation:hr-spin .7s linear infinite}
+.map-status:not(:empty)::first-letter{letter-spacing:0}
+.map-status{min-height:1.4em}
+.spinner{display:inline-block;width:22px;height:22px;border:3px solid #bfd6ff;border-top-color:var(--blue);border-radius:50%;animation:hr-spin .8s linear infinite}
+.hr-pin span{transition:transform .2s}.hr-pin:hover span{transform:rotate(-45deg) scale(1.15)}
+.bubble-row{animation:hr-rise .25s ease both}
+
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  @view-transition{navigation:none}
+}

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomeRent - Log In or Sign Up</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Arial, sans-serif; }
+        body { min-height: 100vh; overflow-x: hidden; }
+        .main-container { display: flex; align-items: center; justify-content: space-between; width: 100%; min-height: 100vh; position: relative; padding: 40px 80px; gap: 30px; }
+        .bg-overlay { position: fixed; inset: 0; background: url('images.jpg') no-repeat center center; background-size: cover; z-index: -2; }
+        .blue-tint { position: fixed; inset: 0; background: linear-gradient(90deg, rgba(12, 48, 105, 0.78) 0%, rgba(30, 95, 180, 0.55) 50%, rgba(255, 255, 255, 0.08) 100%); z-index: -1; }
+        .left-section { flex: 1; display: flex; align-items: center; color: white; position: relative; z-index: 1; }
+        .brand-content { max-width: 500px; }
+        .logo-text { font-size: 48px; font-weight: 700; margin-bottom: 8px; text-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+        .blue { color: #60a5fa; }
+        .subtitle { font-size: 16px; opacity: 0.95; letter-spacing: 1px; margin-bottom: 45px; }
+        .main-heading { font-size: 42px; line-height: 1.2; margin-bottom: 25px; font-weight: 700; text-shadow: 0 2px 10px rgba(0,0,0,0.2); }
+        .description { font-size: 17px; line-height: 1.6; opacity: 0.95; margin-bottom: 50px; text-shadow: 0 1px 4px rgba(0,0,0,0.15); }
+        .features { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+        .feature-item { background: rgba(255,255,255,0.12); border-radius: 10px; padding: 16px 10px; text-align: center; backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.18); transition: transform .2s; }
+        .feature-item:hover { transform: translateY(-4px); }
+        .feature-icon-img { width: 26px; height: 26px; object-fit: contain; display: block; margin: 0 auto 6px; }
+        .feature-item span { font-size: 13px; line-height: 1.4; font-weight: 500; }
+
+        /* ---------- Flip card ---------- */
+        .right-section { flex: 0 0 410px; position: relative; z-index: 1; }
+        .flip-card { perspective: 1400px; width: 100%; }
+        .flip-inner { position: relative; display: grid; transition: transform .8s cubic-bezier(.4, .2, .2, 1), height .5s ease; transform-style: preserve-3d; }
+        .flip-card.flipped .flip-inner { transform: rotateY(180deg); }
+        .face { grid-area: 1 / 1; align-self: start; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+                background: rgba(255,255,255,0.96); border-radius: 18px; padding: 30px 26px; box-shadow: 0 14px 44px rgba(7,42,102,0.28); border: 1px solid #cfe0fa; }
+        .face.back { transform: rotateY(180deg); }
+        .flip-card:not(.flipped) .face.back, .flip-card.flipped .face.front { visibility: hidden; transition: visibility 0s .4s; }
+        .face-head { text-align: center; margin-bottom: 14px; }
+        .login-logo-icon-img { width: 40px; height: 40px; object-fit: contain; display: block; margin: 0 auto 4px; }
+        .face-head h2 { font-size: 22px; color: #0b3a8c; font-weight: 700; }
+        .face-head p { font-size: 11px; color: #64748b; letter-spacing: 1px; }
+
+        form { text-align: left; }
+        .form-group { margin-bottom: 14px; }
+        .form-group label { font-size: 11px; color: #475569; font-weight: 600; display: block; margin-bottom: 5px; }
+        .label-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+        .label-row label { margin-bottom: 0; }
+        .forgot { font-size: 12px; color: #2563eb; text-decoration: none; }
+        .forgot:hover { text-decoration: underline; }
+        .input-field { display: flex; align-items: center; border: 1px solid #cbd5e1; border-radius: 8px; padding: 11px 12px; background: #f9fafb; transition: border-color .15s, box-shadow .15s; }
+        .input-field:focus-within { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); }
+        .icon-img { width: 16px; height: 16px; object-fit: contain; margin-right: 8px; }
+        .input-field input { border: none; outline: none; background: transparent; flex: 1; font-size: 14px; color: #1e293b; min-width: 0; }
+        .eye-icon-img { width: 16px; height: 16px; object-fit: contain; cursor: pointer; }
+        .btn-primary { width: 100%; background: linear-gradient(180deg, #3b9bff, #1f6feb); color: #fff; border: none; padding: 12px; border-radius: 99px; font-size: 14px; font-weight: 600; cursor: pointer; margin-top: 6px; transition: transform .15s, filter .15s, box-shadow .15s; box-shadow: 0 4px 12px rgba(31,111,235,.3); }
+        .btn-primary:hover { filter: brightness(1.07); transform: translateY(-1px); }
+        .btn-primary:active { transform: scale(.98); }
+        .btn-primary:disabled { opacity: .7; cursor: wait; }
+        .or-divider { display: flex; align-items: center; gap: 10px; color: #64748b; font-size: 11px; margin: 14px 0 10px; }
+        .or-divider::before, .or-divider::after { content: ""; flex: 1; height: 1px; background: #dbe5f3; }
+        .google-slot { display: flex; justify-content: center; min-height: 44px; }
+        .google-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; background: #fff; border: 1px solid #dadce0; border-radius: 99px; padding: 11px 14px; font-size: 14px; font-weight: 600; color: #3c4043; text-decoration: none; transition: box-shadow .2s, background .2s, transform .15s; }
+        .google-btn:hover { background: #f8fafd; box-shadow: 0 2px 8px rgba(60,64,67,.25); transform: translateY(-1px); }
+        .google-btn:active { transform: scale(.98); }
+        .google-btn:focus-visible { outline: 3px solid rgba(37,99,235,.45); outline-offset: 2px; }
+        .google-help { font-size: 11px; color: #64748b; text-align: center; margin-top: 8px; }
+        .switch-text { text-align: center; font-size: 12px; color: #64748b; margin-top: 14px; }
+        .switch-btn { background: #eff6ff; color: #1d4ed8; border: 0; padding: 10px; border-radius: 99px; font-size: 13px; font-weight: 600; cursor: pointer; width: 100%; margin-top: 6px; transition: background .15s; }
+        .switch-btn:hover { background: #dbeafe; }
+        .notice { display: none; padding: 10px 12px; border-radius: 8px; font-size: 13px; margin-bottom: 12px; text-align: left; }
+        .notice.error { display: block; background: #fee2e2; color: #991b1b; }
+        .notice.ok { display: block; background: #dcfce7; color: #166534; }
+
+        /* sign-up side */
+        .roles { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 4px; }
+        .role-card { background: #f8fafc; border-radius: 14px; padding: 16px 10px; border: 2px solid #e2e8f0; text-align: center; cursor: pointer; transition: all .2s; }
+        .role-card:hover { border-color: #93c5fd; background: #eff6ff; transform: translateY(-3px); }
+        .role-card img { width: 46px; height: 46px; object-fit: contain; }
+        .role-card h3 { font-size: 15px; color: #1e293b; margin: 6px 0 2px; }
+        .role-card p { font-size: 11px; color: #64748b; line-height: 1.35; }
+        .step2 { display: none; }
+        .picked { background: #eff6ff; color: #1e40af; padding: 8px 14px; border-radius: 8px; font-size: 14px; font-weight: 500; margin-bottom: 14px; display: flex; justify-content: space-between; align-items: center; }
+        .picked a { font-size: 12px; color: #2563eb; cursor: pointer; text-decoration: underline; }
+        .plain-input { width: 100%; padding: 12px 14px; margin-bottom: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; background: #f9fafb; transition: border-color .15s, box-shadow .15s; }
+        .plain-input:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37,99,235,.15); background: #fff; }
+        .pw-error { color: #dc2626; font-size: 12px; margin: -4px 0 8px; display: none; }
+        .hint { font-size: 11px; color: #64748b; margin: -4px 0 10px; }
+
+        @media (max-width: 960px) {
+            .main-container { flex-direction: column; padding: 28px 18px; justify-content: flex-start; }
+            .left-section { flex: none; width: 100%; }
+            .features, .description br { display: none; }
+            .main-heading { font-size: 28px; } .logo-text { font-size: 36px; } .subtitle { margin-bottom: 18px; } .description { margin-bottom: 0; font-size: 15px; }
+            .right-section { flex: none; width: 100%; max-width: 440px; }
+        }
+        @media (max-width: 420px) { .face { padding: 24px 16px; } .roles { grid-template-columns: 1fr; } }
+        @media (prefers-reduced-motion: reduce) {
+            .flip-inner { transition: none; }
+            .flip-card:not(.flipped) .face.back, .flip-card.flipped .face.front { transition: none; }
+        }
+    </style>
+</head>
+<body>
+<div class="bg-overlay"></div>
+<div class="blue-tint"></div>
+<div class="main-container">
+
+    <!-- Left: branding (unchanged) -->
+    <div class="left-section">
+        <div class="brand-content">
+            <h1 class="logo-text">Home<span class="blue">Rent</span></h1>
+            <p class="subtitle">STUDENT HOUSING PORTAL</p>
+            <h2 class="main-heading">Find Your Next Home,<br>Closer to Your Goals</h2>
+            <p class="description">A convenient and reliable platform for students to find affordable<br>and accessible rental spaces in Barangay Mansuna.</p>
+            <div class="features">
+                <div class="feature-item"><img src="icon-search.png" alt="Verified Listings" class="feature-icon-img"><span>Verified<br>Listings</span></div>
+                <div class="feature-item"><img src="icon-student.png" alt="Student Focused" class="feature-icon-img"><span>Student<br>Focused</span></div>
+                <div class="feature-item"><img src="icon-location.png" alt="Convenient Search" class="feature-icon-img"><span>Convenient<br>Search</span></div>
+                <div class="feature-item"><img src="icon-shield.png" alt="Safe & Trusted" class="feature-icon-img"><span>Safe &<br>Trusted</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right: flip card -->
+    <div class="right-section">
+        <div class="flip-card" id="flipCard">
+            <div class="flip-inner" id="flipInner">
+
+                <!-- FRONT: log in -->
+                <section class="face front" id="faceLogin" aria-label="Log in">
+                    <div class="face-head"><img src="logo-icon.png" alt="HomeRent" class="login-logo-icon-img"><h2>Welcome back</h2><p>LOG IN TO HOMERENT</p></div>
+                    <div id="loginMessage" class="notice" role="alert"></div>
+                    <form action="login.php" method="POST" id="loginForm">
+                        <div class="form-group"><label for="email">EMAIL</label>
+                            <div class="input-field"><img src="icon-user.png" alt="" class="icon-img"><input type="email" id="email" name="email" placeholder="Email address" required autocomplete="email"></div></div>
+                        <div class="form-group">
+                            <div class="label-row"><label for="password">PASSWORD</label><a href="forgot-password.php" class="forgot">Forgot Password?</a></div>
+                            <div class="input-field"><img src="icon-lock.png" alt="" class="icon-img"><input type="password" id="password" name="password" placeholder="Password" required autocomplete="current-password"><img src="icon-eye.png" alt="Show password" class="eye-icon-img" id="eyeToggle"></div></div>
+                        <button type="submit" class="btn-primary">Log in →</button>
+                    </form>
+                    <div class="google-block"><div class="or-divider">or</div><a class="google-btn" href="google-start.php?intent=login"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Continue with Google</span></a></div>
+                    <p class="switch-text">Don't have an account?</p>
+                    <button type="button" class="switch-btn" data-flip="signup">Sign up</button>
+                </section>
+
+                <!-- BACK: sign up -->
+                <section class="face back" id="faceSignup" aria-label="Sign up">
+                    <div class="face-head"><img src="logo-icon.png" alt="HomeRent" class="login-logo-icon-img"><h2 id="signupTitle">Create your account</h2><p>JOIN HOMERENT</p></div>
+                    <div id="signupMessage" class="notice" role="alert"></div>
+
+                    <div id="step1">
+                        <div class="roles">
+                            <div class="role-card" data-role="student" tabindex="0" role="button"><img src="graduation-cap.png" alt=""><h3>Student</h3><p>Find and book rental spaces near your school</p></div>
+                            <div class="role-card" data-role="landlord" tabindex="0" role="button"><img src="home.png" alt=""><h3>Landlord</h3><p>List and manage your property</p></div>
+                        </div>
+                        <p class="google-help">Choose your account type first. You can then sign up with Google too.</p>
+                    </div>
+
+                    <div class="step2" id="step2">
+                        <div class="picked"><span id="typeText"></span><a id="changeType" role="button" tabindex="0">Change</a></div>
+                        <form action="register-process.php" method="POST" id="signupForm">
+                            <input type="hidden" name="account_type" id="accountType">
+                            <input class="plain-input" type="text" name="fullname" placeholder="Full Name" maxlength="100" required autocomplete="name">
+                            <input class="plain-input" type="email" name="email" placeholder="Email Address" maxlength="150" required autocomplete="email">
+                            <input class="plain-input" type="password" name="password" id="spw" placeholder="Create Password (8+ characters)" minlength="8" required autocomplete="new-password">
+                            <input class="plain-input" type="password" id="spw2" placeholder="Confirm Password" minlength="8" required autocomplete="new-password">
+                            <div class="pw-error" id="pwError">Passwords do not match.</div>
+                            <p class="hint">We'll email you a 6-digit code to verify your address.</p>
+                            <button type="submit" class="btn-primary">Create Account</button>
+                        </form>
+                        <div class="google-block"><div class="or-divider">or</div>
+                            <a class="google-btn" id="googleSignup" href="google-start.php?intent=student"><svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span id="googleSignupText">Sign up with Google as a Student</span></a></div>
+                    </div>
+                    <p class="switch-text">Already have an account?</p>
+                    <button type="button" class="switch-btn" data-flip="login">Log in</button>
+                </section>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="google-config.js.php"></script>
+<script>
+(function () {
+    var card = document.getElementById('flipCard'), inner = document.getElementById('flipInner');
+    var front = document.getElementById('faceLogin'), back = document.getElementById('faceSignup');
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Only the visible side can be focused or submitted: the hidden side is inert
+    function sync() {
+        var signup = card.classList.contains('flipped');
+        front.inert = signup; back.inert = !signup;
+        front.setAttribute('aria-hidden', signup); back.setAttribute('aria-hidden', !signup);
+        inner.style.height = (signup ? back : front).offsetHeight + 'px';
+    }
+    function setPanel(p, focus) {
+        card.classList.toggle('flipped', p === 'signup');
+        sync();
+        try { history.replaceState(null, '', p === 'signup' ? '#signup' : location.pathname); } catch (e) {}
+        if (focus) setTimeout(function () { var el = (p === 'signup' ? back : front).querySelector('input:not([type=hidden]), .role-card'); if (el) el.focus({ preventScroll: true }); }, reduce ? 0 : 450);
+    }
+    document.querySelectorAll('[data-flip]').forEach(function (b) { b.addEventListener('click', function () { setPanel(b.dataset.flip, true); }); });
+    window.addEventListener('resize', sync);
+
+    // Sign-up steps (same behaviour as the old register page)
+    var s1 = document.getElementById('step1'), s2 = document.getElementById('step2');
+    function choose(type) {
+        document.getElementById('typeText').textContent = type === 'student' ? 'Student Account' : 'Landlord Account';
+        document.getElementById('accountType').value = type;
+        document.getElementById('googleSignup').href = 'google-start.php?intent=' + type;
+        document.getElementById('googleSignupText').textContent = 'Sign up with Google as a ' + (type === 'student' ? 'Student' : 'Landlord');
+        s1.style.display = 'none'; s2.style.display = 'block'; sync();
+        var f = s2.querySelector('input[name=fullname]'); if (f) f.focus({ preventScroll: true });
+    }
+    function unchoose() { s1.style.display = 'block'; s2.style.display = 'none'; document.getElementById('pwError').style.display = 'none'; sync(); }
+    document.querySelectorAll('.role-card').forEach(function (c) {
+        c.addEventListener('click', function () { choose(c.dataset.role); });
+        c.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(c.dataset.role); } });
+    });
+    var ch = document.getElementById('changeType');
+    ch.addEventListener('click', unchoose); ch.addEventListener('keydown', function (e) { if (e.key === 'Enter') unchoose(); });
+
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+        var ok = document.getElementById('spw').value === document.getElementById('spw2').value;
+        document.getElementById('pwError').style.display = ok ? 'none' : 'block';
+        if (!ok) { e.preventDefault(); sync(); }
+        else lockButton(this);
+    });
+    document.getElementById('loginForm').addEventListener('submit', function () { lockButton(this); });
+    function lockButton(form) { var b = form.querySelector('button[type=submit]'); setTimeout(function () { b.disabled = true; b.textContent = 'Please wait...'; }, 0); }
+
+    // Show/hide password
+    document.getElementById('eyeToggle').addEventListener('click', function () {
+        var i = document.getElementById('password'); i.type = i.type === 'password' ? 'text' : 'password';
+    });
+
+    // Messages sent back by the server
+    var q = new URLSearchParams(location.search);
+    var loginMsgs = {
+        invalid: 'Incorrect email or password.', empty: 'Please enter your email and password.', inactive: 'This account is deactivated or suspended.',
+        unverified: 'Please verify your email first.', expired: 'Your password was changed, so you were signed out. Please log in again.',
+        login_required: 'Please log in to continue.', google_failed: 'Google sign-in did not work. Please try again.',
+        google_conflict: 'We could not match this Google account safely. Log in with your email and password instead.',
+        google_cancelled: 'Google sign-in was cancelled.'
+    };
+    var okMsgs = { logged_out: 'You have been logged out.', verified: 'Email verified! You can now log in.', reset_done: 'Password changed. Please log in with your new password.' };
+    var signupMsgs = { email_exists: 'That email is already registered.', invalid: 'Please check your details. The password needs at least 8 characters.', error: 'Something went wrong. Please try again.', mail: 'We could not send the verification email.',
+        google_failed: 'Google sign-in did not work. Please try again.', google_cancelled: 'Google sign-in was cancelled.', inactive: 'This account is deactivated or suspended.',
+        google_conflict: 'We could not match this Google account safely. Use your email and password instead.' };
+    var roleName = { student: 'Student', landlord: 'Landlord' };
+    function show(id, text, cls) { var n = document.getElementById(id); n.textContent = text; n.className = 'notice ' + cls; }
+    if (loginMsgs[q.get('err')]) show('loginMessage', loginMsgs[q.get('err')], 'error');
+    else if (okMsgs[q.get('msg')]) show('loginMessage', okMsgs[q.get('msg')], 'ok');
+    if (q.get('rmsg') === 'google_role' && roleName[q.get('rt')]) show('signupMessage', 'That Google email is already registered as a ' + roleName[q.get('rt')] + '. Log in on the left using the ' + roleName[q.get('rt')] + ' account (your account type cannot be changed).', 'error');
+    else if (signupMsgs[q.get('rmsg')]) show('signupMessage', signupMsgs[q.get('rmsg')], 'error');
+
+    // Google block only appears when the server has a Client ID configured
+
+    var start = (q.get('panel') === 'signup' || location.hash === '#signup') ? 'signup' : 'login';
+    if (start === 'signup') { var t = inner.style.transition; inner.style.transition = 'none'; card.classList.add('flipped'); sync(); void inner.offsetHeight; inner.style.transition = t; }
+    else sync();
+    window.addEventListener('load', sync);
+})();
+</script>
+</body>
+</html>
